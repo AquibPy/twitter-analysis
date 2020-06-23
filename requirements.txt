@@ -7,4 +7,3 @@ seaborn
 wordcloud
 textblob
 tweepy
-webbrowser
