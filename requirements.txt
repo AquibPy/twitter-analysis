@@ -1,0 +1,10 @@
+numpy
+streamlit
+pandas
+sklearn
+matplotlib
+seaborn
+wordcloud
+textblob
+tweepy
+webbrowser
