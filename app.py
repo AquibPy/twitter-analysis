@@ -14,9 +14,9 @@ import webbrowser
 consumerKey = 'E39cshUel1sCtP6rb0E4hsaeZ'
 consumerSecret = 'rmuQx9317MT8NOeXbHHKGxugoDjIR1w2TE9sv0UkB72I6sYqMx'
 
-accessToken = '2924217373-uN1nFKht2Z7F937C4X9rfd8ejcqdtGIe6CUxSVb'
+accessToken = '2924217373-rv18gyiUyKgfl233kzsWopJlaiH74njT9BscU5i'
 
-accessTokenSecret ='IDLWbH5vcYpIsMg8Rt93dhVNBtLwvBx1IR1SGgpRMDa10'
+accessTokenSecret ='P16R5y5q686jjo1Jq0k1FSVMmFcY1axTIVj4lt4udSvO2'
 
 
 # Create an Authentication Object
