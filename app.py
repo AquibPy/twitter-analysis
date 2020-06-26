@@ -1,7 +1,7 @@
 import streamlit as st
 import tweepy
 from textblob import TextBlob
-from wordcloud import WordCloud
+from wordcloud import WordCloud,STOPWORDS
 import pandas as pd
 import numpy as np
 import re
@@ -14,9 +14,9 @@ import webbrowser
 consumerKey = 'E39cshUel1sCtP6rb0E4hsaeZ'
 consumerSecret = 'rmuQx9317MT8NOeXbHHKGxugoDjIR1w2TE9sv0UkB72I6sYqMx'
 
-accessToken = '2924217373-rv18gyiUyKgfl233kzsWopJlaiH74njT9BscU5i'
+accessToken = '2924217373-HWvI2B99imCct7LWhvaXvFLH9MBm83w63Ld4o2w'
 
-accessTokenSecret ='P16R5y5q686jjo1Jq0k1FSVMmFcY1axTIVj4lt4udSvO2'
+accessTokenSecret ='22MvMYGfp5zD8b1WpO9mFOf51cJgYIhSuYkz6mUVlThZ2'
 
 
 # Create an Authentication Object
@@ -35,7 +35,7 @@ def main_tweet():
     from PIL import Image
     image = Image.open('logo.jpeg')
     st.sidebar.image(image,use_column_width=True)
-    activities = ['Tweet Analyzer','Generate Tweet Data','About Us']
+    activities = ['Tweet Analyzer','Generate Tweet Data','Search Tweets','About Us']
     choice = st.sidebar.selectbox("Select Your Activity",activities)
 
 
@@ -70,12 +70,13 @@ def main_tweet():
             elif analysis == "Generate the WordCloud":
                 st.success("Generating Word Cloud")
                 def gen_wordcloud():
-                    posts = api.user_timeline(screen_name=raw_text, count = 100, lang ="en", tweet_mode="extended")
+                    posts = api.user_timeline(screen_name=raw_text, count = 1000, lang ="en", tweet_mode="extended")
 					# Create a dataframe with a column called Tweets
                     df = pd.DataFrame([tweet.full_text for tweet in posts], columns=['Tweets'])
 					# word cloud visualization
                     allWords = ' '.join([twts for twts in df['Tweets']])
-                    wordCloud = WordCloud(width=500, height=300, random_state=21, max_font_size=110).generate(allWords)
+                    stopwords = set(STOPWORDS)
+                    wordCloud = WordCloud(width=500, height=300, random_state=21, max_font_size=110,stopwords=stopwords,background_color='white').generate(allWords)
                     plt.imshow(wordCloud, interpolation="bilinear")
                     plt.axis('off')
                     plt.savefig('WC.jpg')
@@ -165,6 +166,17 @@ def main_tweet():
             st.success('Fetching Last 100 Tweets')
             df = get_data(user_name)
             st.write(df)
+    
+    elif choice == "Search Tweets":
+        raw_text = st.text_area('Search The Tweet')
+        date_since = st.text_input("Enter Date in the format (Year-Month-Date)")
+        posts = api.user_timeline(screen_name=raw_text, count = 100, lang ="en", tweet_mode="extended")
+        if st.button('Search'):
+            tweets = tweepy.Cursor(api.search,q =raw_text,lang = 'en',since = date_since).items(10)
+            for tweet in tweets:
+                st.write(tweet.text)
+
+
     else:
         st.header("SCRIPTHON")
 
